@@ -52,8 +52,6 @@ async def join(ctx):
     channel = ctx.author.voice.channel
     await channel.connect()
     await start_record(ctx)
-    await asyncio.sleep(asr_parse_freq)
-    await end_record(ctx)
 
 
 @client.slash_command(name="stop", description="stop recording and leave voice chat!")
@@ -66,6 +64,8 @@ async def stop(ctx):
 async def start_record(ctx):
     ctx.voice_client.start_recording(discord.sinks.WaveSink(), record_finish_callback, ctx)
     print(f"RECORD START, ending in {asr_parse_freq}s")
+    await asyncio.sleep(asr_parse_freq)
+    await end_record(ctx)
 
 
 async def end_record(ctx):
@@ -75,6 +75,7 @@ async def end_record(ctx):
 
 async def record_finish_callback(sink, ctx):
     connection = ctx.voice_client
+    print(connection)
     if connection:
         await start_record(ctx)
     for user_id, audio in sink.audio_data.items():
