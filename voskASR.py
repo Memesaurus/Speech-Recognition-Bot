@@ -2,14 +2,11 @@ import speech_recognition as sr
 import wave
 import config
 
-AUDIO_FILE = "temp.wav"
-
-
 def are_nariks_speaking(words, sink, recognizer):
-    with wave.open(AUDIO_FILE, mode='wb') as f:
-        f.setparams(config.params)
+    with wave.open(config.AUDIO_FILE, mode='wb') as f:
+        f.setparams(config.PARAMS)
         f.writeframes(sink.fp.read())
-    with sr.AudioFile(AUDIO_FILE) as source:
+    with sr.AudioFile(config.AUDIO_FILE) as source:
         audio = recognizer.record(source)
 
     result = parse_voice_data(sink, recognizer, audio)

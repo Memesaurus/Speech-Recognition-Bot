@@ -6,13 +6,13 @@ import speech_recognition as sr
 import vosk
 import time
 
-with open(config.badWordsData, "r", encoding="utf-8") as f:
+with open(config.BAD_WORDS, "r", encoding="utf-8") as f:
     badWords = f.read().splitlines()
 
 intents = discord.Intents(messages=True, guilds=True, voice_states=True, message_content=True)
 client = commands.Bot(intents=intents)
 recognizer = sr.Recognizer()
-recognizer.vosk_model = vosk.Model(config.modelPath)
+recognizer.vosk_model = vosk.Model(config.MODEL_PATH)
 asr_parse_freq = 5
 
 
@@ -46,7 +46,6 @@ async def start_record(ctx):
 
 @tasks.loop(seconds=asr_parse_freq)
 async def end_record(ctx):
-    print(ctx.voice_client.decoder)
     ctx.voice_client.stop_recording()
     print(str(time.time()) + " RECORD END")
 
@@ -60,4 +59,4 @@ async def record_finish_callback(sink, ctx):
             await narik_caught(ctx, user)
 
 
-client.run(config.token)
+client.run(config.TOKEN)
