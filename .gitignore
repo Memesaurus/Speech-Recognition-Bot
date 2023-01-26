@@ -1,0 +1,8 @@
+config.py
+models
+BadWords.txt
+discord.log
+temp.wav
+results.txt
+poetry.lock
+pyproject.toml
