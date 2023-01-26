@@ -2,8 +2,9 @@ import speech_recognition as sr
 import wave
 import config
 
+
 def are_nariks_speaking(words, sink, recognizer):
-    with wave.open(config.AUDIO_FILE, mode='wb') as f:
+    with wave.open(config.AUDIO_FILE, mode="wb") as f:
         f.setparams(config.PARAMS)
         f.writeframes(sink.fp.read())
     with sr.AudioFile(config.AUDIO_FILE) as source:
@@ -29,5 +30,5 @@ def parse_voice_data(sink, recognizer, audio):
 
 
 def write_to_file(data):
-    with open('results.txt', 'a') as f:
-        f.write(data + '\n')
+    with open("results.txt", "a", encoding="utf-8") as f:
+        f.write(data + "\n")
