@@ -7,3 +7,4 @@ results.txt
 poetry.lock
 pyproject.toml
 .idea
+/BadWordsTemp.txt

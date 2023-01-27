@@ -1,3 +1,5 @@
+import json
+
 import speech_recognition as sr
 import wave
 import config
@@ -10,18 +12,21 @@ def are_nariks_speaking(words, sink, recognizer):
     with sr.AudioFile(config.AUDIO_FILE) as source:
         audio = recognizer.record(source)
 
-    result = parse_voice_data(sink, recognizer, audio)
-    for word in words:
-        if word in result:
-            return True
+    phrase = parse_voice_data(sink, recognizer, audio)
+    if phrase:
+        for word in words:
+            if word in phrase:
+                return True
 
 
 def parse_voice_data(sink, recognizer, audio):
     try:
-        result = sink.filename + " " + recognizer.recognize_vosk(audio, language="ru")
-        if result != "":
-            print("Vosk: " + result)
-            write_to_file(result)
+        data = recognizer.recognize_vosk(audio, language="ru")
+        parsed_data = json.loads(data)
+        if parsed_data["text"] is not "":
+            result = sink.filename + ": " + data
+            print(result)
+            # write_to_file(result)
             return result
     except sr.UnknownValueError:
         print("Unknown value Err")
@@ -30,5 +35,5 @@ def parse_voice_data(sink, recognizer, audio):
 
 
 def write_to_file(data):
-    with open("results.txt", "a", encoding="utf-8") as f:
+    with open("results.txt", "a") as f:
         f.write(data + "\n")
