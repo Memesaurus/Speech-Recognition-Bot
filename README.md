@@ -1,4 +1,4 @@
-A Discord bot that, on <strong>/join</strong> command, starts recording x(can be modified) second voice samples 
+A Discord bot that, on <strong>/join</strong> command, starts recording second voice samples of modifyable length 
 from discord voice channel it is connected to
 <br><br>
 Voice samples are recorded as WAVE files and parsed by [VOSK API](https://alphacephei.com/vosk/)
